@@ -1,0 +1,23 @@
+{
+  "name": "new-svr",
+  "version": "1.0.0",
+  "description": "### how to use ```js // 拷贝工程  git clone https://github.com/ttian99/xwf-svr.git svr cd svr npm install npm run dev ```",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "monkey jiao",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "bunyan-daily": "0.0.2",
+    "compression": "^1.7.1",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "glob-all": "^3.1.0",
+    "lodash": "^4.17.4",
+    "method-override": "^2.3.10",
+    "moment": "^2.19.1",
+    "serve-favicon": "^2.4.5"
+  }
+}
