@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        微信公众号接入测试页面
+    </title>
+    <style type='text/css'>
+        button {
+            margin: 0 auto;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
+    </style>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+</head>
+
+<body>
+    <script>
+        // http请求
+        function reqHttp(url, cb) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log('typeof(xhr.responseText) = ' + typeof (xhr.responseText));
+                    try {
+                        var data = JSON.parse(xhr.responseText);
+                    } catch (error) {
+                        console.error('error');
+                    }
+                    cb(data);
+                }
+            };
+            xhr.send();
+        }
+
+        var configUrl = 'http://119.23.154.14:2082/wxConfig'
+        reqHttp(configUrl, function(data) {
+            console.log('data');
+            
+        });
+
+        // 微信jssdk文档地址： https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115
+        // wx.config({
+        //     debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        //     appId: 'wx2ba7c5f470b4fe86', // 必填，公众号的唯一标识
+        //     timestamp: , // 必填，生成签名的时间戳
+        //     nonceStr: '', // 必填，生成签名的随机串
+        //     signature: '',// 必填，签名，见附录1
+        //     jsApiList: [] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        // });
+
+        /*
+         * 注意：
+         * 1. 所有的JS接口只能在公众号绑定的域名下调用，公众号开发者需要先登录微信公众平台进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。
+         * 2. 如果发现在 Android 不能分享自定义内容，请到官网下载最新的包覆盖安装，Android 自定义分享接口需升级至 6.0.2.58 版本及以上。
+         * 3. 常见问题及完整 JS-SDK 文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
+         *
+         */
+        // wx.config({
+        //     debug: false,
+        //     appId: 'wxf8b4f85f3a794e77',
+        //     timestamp: 1511594227,
+        //     nonceStr: 'SO0WjwitFD1PvEnK',
+        //     signature: '328d44ba084e85049b6b997d22460b19a0b18eac',
+        //     jsApiList: [
+        //         'checkJsApi',
+        //         'onMenuShareTimeline',
+        //         'onMenuShareAppMessage',
+        //         'onMenuShareQQ',
+        //         'onMenuShareWeibo',
+        //         'onMenuShareQZone',
+        //         'hideMenuItems',
+        //         'showMenuItems',
+        //         'hideAllNonBaseMenuItem',
+        //         'showAllNonBaseMenuItem',
+        //         'translateVoice',
+        //         'startRecord',
+        //         'stopRecord',
+        //         'onVoiceRecordEnd',
+        //         'playVoice',
+        //         'onVoicePlayEnd',
+        //         'pauseVoice',
+        //         'stopVoice',
+        //         'uploadVoice',
+        //         'downloadVoice',
+        //         'chooseImage',
+        //         'previewImage',
+        //         'uploadImage',
+        //         'downloadImage',
+        //         'getNetworkType',
+        //         'openLocation',
+        //         'getLocation',
+        //         'hideOptionMenu',
+        //         'showOptionMenu',
+        //         'closeWindow',
+        //         'scanQRCode',
+        //         'chooseWXPay',
+        //         'openProductSpecificView',
+        //         'addCard',
+        //         'chooseCard',
+        //         'openCard'
+        //     ]
+        // });
+
+
+        // 获取字符串
+        function getQS() {
+            var theRequest = {};
+            var url = window.location.search; // 获取url中'?'符后的字串
+            var idx = url.indexOf('?');
+            if (idx !== -1) {
+                var str = url.substr(idx + 1);
+                var strs = str.split('&');
+                for (var i = 0; i < strs.length; i++) {
+                    theRequest[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1]);
+                }
+            }
+            return theRequest;
+        };
+        var cfg = {};
+        window.cfg = cfg;
+        cfg.qs = getQS();
+
+        // 微信登录
+        function wxlogin() {
+            console.log('wxlogin');
+            console.log(cfg);
+            var code = cfg.qs.code || '';
+            // var url = 'http://119.23.154.14:2082/?code=' + cfg.qs.code;
+            var url = 'http://192.168.0.182:8000/?code=' + cfg.qs.code;
+            reqHttp(url, function (data) {
+                document.body.innerHTML = '<h1> wxlogin is back </h1>\n <p>data=' + JSON.stringify(data) + '</p>';
+            });
+        }
+        // 分享到朋友圈
+        function shareToCircle() {
+            console.log('shareToCircle');
+        }
+        // 分享给朋友
+        function shareToWechat() {
+            console.log('shareToWechat');
+        }
+    </script>
+    <button type="button" onClick="wxlogin()">登录</button>
+    <button type="button" onClick="shareToCircle()">分享到朋友圈</button>
+    <button type="button" onClick="shareToWechat()">分享给朋友</button>
+</body>
+
+</html>

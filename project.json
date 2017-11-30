@@ -1,5 +1,5 @@
 {
 	"isDev": true,
-	"projName": "qmndr",
-	"port": 2082
+	"projName": "weixin",
+	"port": 8000
 }
