@@ -1,6 +1,6 @@
 {
 	"isDev": true,
-	"projName": "qmndr",
-	"httpPort": 2082,
+	"projName": "duudle",
+	"httpPort": 6000,
 	"socketPort": 6001
 }
