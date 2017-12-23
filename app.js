@@ -6,10 +6,6 @@
 // // argv.port = argv.port || 8010;
 // // argv.dev = !!argv.dev;
 
-// 监听process的异常
-process.on('uncaughtException', function (e) {
-  console.error('process Caught exception: ' + e.stack);
-});
 // 初始化配置文件
 var fs = require('fs');
 var json = JSON.parse(fs.readFileSync('project.json'));
@@ -20,15 +16,27 @@ cfg.init(json);
 var log = cfg.log('app');
 log.debug(JSON.stringify(cfg), 'cfg : s%');
 
-// 初始化express 
-var express = require('./lib/express/express');
-var app = express.init();
-
-// 选择路由
-app.use('/', require('./lib/router/api-router.js'));
-
-// 服务器监听 
-var server = app.listen(cfg.port, function () {
-  var port = server.address().port;
-  log.debug('http svr is listener on port: ' + cfg.port);
+// 监听process的异常
+process.on('uncaughtException', function (e) {
+  log.error('process Caught exception: ' + e.stack);
 });
+
+/******************
+ * http服务器启动
+ ******************/
+// 初始化express 
+var express = require('./lib/server/express.js');
+var app = express.init();
+// 选择http路由
+app.use('/', require('./lib/router/router-http/router-http.js'));
+// http服务器监听 
+var httpSvr = app.listen(cfg.httpPort, function () {
+  var port = httpSvr.address().port;
+  log.debug('http svr is listener on port: ' + port);
+});
+
+/*****************
+ * socket服务器启动
+ ******************/
+var socketSvr = require('./lib/server/socket.js');
+socketSvr.init(cfg.socketPort);

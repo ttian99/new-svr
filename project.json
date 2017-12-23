@@ -1,5 +1,6 @@
 {
 	"isDev": true,
-	"projName": "weixin",
-	"port": 8000
+	"projName": "qmndr",
+	"httpPort": 2082,
+	"socketPort": 6001
 }

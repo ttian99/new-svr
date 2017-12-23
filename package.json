@@ -4,7 +4,8 @@
   "description": "### how to use ```js // 拷贝工程  git clone https://github.com/ttian99/xwf-svr.git svr cd svr npm install npm run dev ```",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node app.js | bunyan",
+    "test-socket": "node ./test/socket-test/app.js"
   },
   "author": "monkey jiao",
   "license": "ISC",
@@ -18,7 +19,7 @@
     "lodash": "^4.17.4",
     "method-override": "^2.3.10",
     "moment": "^2.19.1",
-    "node-fetch": "^1.7.3",
-    "serve-favicon": "^2.4.5"
+    "serve-favicon": "^2.4.5",
+    "socket.io": "^2.0.4"
   }
 }
