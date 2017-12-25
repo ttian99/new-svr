@@ -19,13 +19,38 @@ io.on('connection', function (socket) {
   socket.on('say to someone', function(id, msg){
     socket.broadcast.to(id).emit('my message', msg);
   });
+
+  // 创建房间
+  socket.on('create room', function() {
+    var roomNum = randomRoom();
+  });
   
   // 加入房间
   socket.on('join room', function(data) {
+    const roomId = data.roomId;
     // 
-    socket.join('some room');
+    socket.join(roomId);
     // 房间内发送消息
-    io.to('some room').emit('some event');
+    io.to(roomId).emit('other join room');
+  });
+
+  // 离开房间
+  socket.on('leave room', function(data) {
+
+  });
+
+  // 准备
+  socket.on('ready', function(data) {
+
+  });
+
+  // 开始游戏
+  socket.on('game start', function() {
+
+  });
+
+  socket.on('game end', function() {
+
   });
 
   // 消息
