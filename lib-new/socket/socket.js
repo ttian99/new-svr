@@ -55,7 +55,7 @@ io.on('connection', function (socket) {
 
   // 消息
   socket.on('chat message', function(msg){
-    log.info('chat message: ' + msg);
+    log.debug('chat message: ' + msg);
     io.emit('chat message', msg);
   });
 
